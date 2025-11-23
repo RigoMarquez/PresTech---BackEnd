@@ -1,0 +1,6 @@
+@PresTechBackEnd_HostAddress = http://localhost:5159
+
+GET {{PresTechBackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
