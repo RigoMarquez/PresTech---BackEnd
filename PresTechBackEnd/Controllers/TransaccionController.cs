@@ -134,7 +134,6 @@ namespace PresTechBackEnd.Controllers
 
             if (dto.MontoPagado <= 0) return BadRequest("El monto debe ser mayor a 0.");
 
-            // Cargar préstamo con su oferta (para obtener la frecuencia)
             var prestamo = await _context.Prestamos
                 .Include(p => p.OfertaPrestamo)
                 .FirstOrDefaultAsync(p => p.PrestamoId == dto.PrestamoId);
@@ -142,7 +141,6 @@ namespace PresTechBackEnd.Controllers
             if (prestamo == null)
                 return NotFound(new { mensaje = "Préstamo no encontrado" });
 
-            // Si la oferta no está cargada o no tiene frecuencia, devolvemos error claro
             if (prestamo.OfertaPrestamo == null || string.IsNullOrWhiteSpace(prestamo.OfertaPrestamo.Frecuencia))
                 return BadRequest(new { mensaje = "No se encontró la frecuencia del préstamo (OfertaPrestamo)." });
 
@@ -157,16 +155,12 @@ namespace PresTechBackEnd.Controllers
 
             _context.Transacciones.Add(transaccion);
 
-            // Actualizar préstamo
-            // Restar el saldo restante
             prestamo.SaldoRestante -= dto.MontoPagado;
             if (prestamo.SaldoRestante < 0) prestamo.SaldoRestante = 0;
 
-            // Reducir cuotas restantes (si aplica)
             if (prestamo.CuotasRestantes > 0)
                 prestamo.CuotasRestantes--;
 
-            // Calcular y asignar la nueva fecha del próximo pago (usa la frecuencia de la oferta)
             prestamo.FechaProxPago = CalcularProximaFechaPago(prestamo.FechaProxPago, prestamo.OfertaPrestamo.Frecuencia);
 
             // Si ya queda en 0 → marcar como pagado
@@ -177,10 +171,8 @@ namespace PresTechBackEnd.Controllers
                 prestamo.Estado = "Pagado";
             }
 
-            // Guardar todo en BD
             await _context.SaveChangesAsync();
 
-            // Respuesta con datos actualizados para el frontend
             return Ok(new
             {
                 mensaje = "Pago registrado con éxito",

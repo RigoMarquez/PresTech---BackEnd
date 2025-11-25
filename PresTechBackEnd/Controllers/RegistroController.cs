@@ -28,7 +28,7 @@ namespace PresTechBackEnd.Controllers
             public string? Ciudad { get; set; }
             public required string Contraseña { get; set; }
 
-            public required string Rol { get; set; }   // "prestamista" o "prestatario"
+            public required string Rol { get; set; }  
         }
 
         [HttpPost]
@@ -47,8 +47,8 @@ namespace PresTechBackEnd.Controllers
             if (documentoExiste)
                 return BadRequest(new { mensaje = "El número de documento ya está registrado para ese tipo de documento." });
 
+            string hashPassword = Hash(req.Contraseña);
 
-            // 1. Crear persona
             var persona = new Persona
             {
                 Nombre = req.Nombre,
@@ -59,50 +59,44 @@ namespace PresTechBackEnd.Controllers
                 Telefono = req.Telefono,
                 Direccion = req.Direccion,
                 Ciudad = req.Ciudad,
-                Contraseña = req.Contraseña
+                Contraseña = hashPassword
             };
 
             _context.Personas.Add(persona);
-            await _context.SaveChangesAsync(); // persona.PersonaId generado
+            await _context.SaveChangesAsync();
 
-            // 2. Crear Rol
+            // Crear rol
             if (req.Rol.ToLower() == "prestamista")
             {
-                var prestamista = new Prestamista
-                {
-                    PersonaId = persona.PersonaId
-                };
+                var prestamista = new Prestamista { PersonaId = persona.PersonaId };
 
                 _context.Prestamistas.Add(prestamista);
                 await _context.SaveChangesAsync();
 
-                return Ok(new
-                {
-                    message = "Prestamista registrado",
-                    persona,
-                    prestamista
-                });
+                return Ok(new { message = "Prestamista registrado", persona, prestamista });
             }
 
             if (req.Rol.ToLower() == "prestatario")
             {
-                var prestatario = new Prestatario
-                {
-                    PersonaId = persona.PersonaId
-                };
+                var prestatario = new Prestatario { PersonaId = persona.PersonaId };
 
                 _context.Prestatarios.Add(prestatario);
                 await _context.SaveChangesAsync();
 
-                return Ok(new
-                {
-                    message = "Prestatario registrado",
-                    persona,
-                    prestatario
-                });
+                return Ok(new { message = "Prestatario registrado", persona, prestatario });
             }
 
             return BadRequest("Rol inválido. Debe ser 'prestamista' o 'prestatario'.");
         }
+
+
+        private static string Hash(string input)
+        {
+            using var sha = System.Security.Cryptography.SHA256.Create();
+            var bytes = System.Text.Encoding.UTF8.GetBytes(input);
+            var hash = sha.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+        }
+
     }
 }

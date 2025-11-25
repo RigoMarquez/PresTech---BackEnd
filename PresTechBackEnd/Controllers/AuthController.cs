@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PresTech.Data;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Backend.Controllers
 {
@@ -21,6 +23,15 @@ namespace Backend.Controllers
             public required string Contraseña { get; set; }
         }
 
+        // ---- FUNCIÓN HASH USADA TAMBIÉN EN REGISTRO ----
+        private static string Hash(string input)
+        {
+            using var sha = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(input);
+            var hash = sha.ComputeHash(bytes);
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginRequest req)
         {
@@ -30,7 +41,10 @@ namespace Backend.Controllers
             if (persona == null)
                 return Unauthorized(new { message = "Email no registrado" });
 
-            if (persona.Contraseña != req.Contraseña)
+            // Hash de la contraseña enviada desde el login
+            string hashedInput = Hash(req.Contraseña);
+
+            if (persona.Contraseña != hashedInput)
                 return Unauthorized(new { message = "Contraseña incorrecta" });
 
             // Buscar relación según el rol
@@ -55,7 +69,7 @@ namespace Backend.Controllers
                     rol
                 },
                 prestamistaId = prestamista?.PrestamistaId,
-                prestatarioId = prestatario?.PrestatarioId   
+                prestatarioId = prestatario?.PrestatarioId
             });
         }
 
