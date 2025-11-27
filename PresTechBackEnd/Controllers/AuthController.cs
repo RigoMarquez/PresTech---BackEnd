@@ -39,13 +39,13 @@ namespace Backend.Controllers
                 .FirstOrDefaultAsync(p => p.Email == req.Email);
 
             if (persona == null)
-                return Unauthorized(new { message = "Email no registrado" });
+                return Unauthorized(new { message = "Credenciales no validas" });
 
             // Hash de la contraseña enviada desde el login
             string hashedInput = Hash(req.Contraseña);
 
             if (persona.Contraseña != hashedInput)
-                return Unauthorized(new { message = "Contraseña incorrecta" });
+                return Unauthorized(new { message = "Credenciales no validas" });
 
             // Buscar relación según el rol
             var prestamista = await _context.Prestamistas
