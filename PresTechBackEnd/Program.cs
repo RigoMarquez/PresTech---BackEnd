@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowLocalhost",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173")
+            policy.WithOrigins("http://localhost:5173", "https://proyecto-pres-tech.vercel.app/")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
