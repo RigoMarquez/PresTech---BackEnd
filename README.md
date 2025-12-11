@@ -4,7 +4,7 @@ Este repositorio contiene el código fuente del BackEnd para el sitio web de Pre
 
 El objetivo principal es proporcionar una API robusta y escalable para que el FrontEnd (sitio web de PresTech) pueda interactuar de manera eficiente.
 
-💻 Tecnologías Utilizadas
+## 💻 Tecnologías Utilizadas
 El proyecto fue desarrollado utilizando el ecosistema de Microsoft .NET, lo que garantiza un rendimiento óptimo y un desarrollo estructurado.
 
 Lenguaje: C#
@@ -17,7 +17,7 @@ Base de Datos: MySQL
 
 ORM (Mapeo Objeto-Relacional): Entity Framework Core
 
-⚙️ Configuración e Instalación
+## ⚙️ Configuración e Instalación
 Sigue estos pasos para obtener una copia operativa del proyecto en tu máquina local con fines de desarrollo y pruebas.
 
 Requisitos Previos
@@ -29,7 +29,7 @@ IDE: Visual Studio
 
 Base de Datos: MySQL descargado
 
-Pasos de Instalación
+## Pasos de Instalación
 Clonar el Repositorio:
 
 ```bash
@@ -49,7 +49,7 @@ Aplicar Migraciones para crear la estructura de la base de datos:
     dotnet ef database update
    ```
 
-▶️ Ejecución del Proyecto
+## ▶️ Ejecución del Proyecto
 Una vez configurado, puedes ejecutar el backend desde tu terminal:
 
 Navega a la carpeta principal del proyecto:
