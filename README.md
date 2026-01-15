@@ -29,46 +29,27 @@ IDE: Visual Studio
 
 Base de Datos: MySQL descargado
 
-## Pasos de Instalación
-Clonar el Repositorio:
+⚙️ Pasos de Instalación
 
 ```bash
-   git clone https://github.com/JorgeIRamos/PresTech-BackEnd.git
-   cd PresTech-BackEnd/PresTechBackEnd
+    git clone https://github.com/RigoMarquez/PresTech---BackEnd.git
+cd PresTech---BackEnd/PresTechBackEnd
+dotnet restore
+dotnet ef database update
    ```
+▶️ Ejecución del Proyecto
 
-Restaurar Dependencias: Ejecuta el siguiente comando para descargar todos los paquetes NuGet necesarios:
-
-```bash
-    dotnet restore
-   ```
-
-Aplicar Migraciones para crear la estructura de la base de datos:
-
-```bash
-    dotnet ef database update
-   ```
-
-## ▶️ Ejecución del Proyecto
 Una vez configurado, puedes ejecutar el backend desde tu terminal:
-
-Navega a la carpeta principal del proyecto:
-
-```bash
-    cd PresTech-BackEnd/PresTechBackEnd
-   ```
-
-
-Ejecutar la Aplicación:
 
 ```bash
     dotnet run
    ```
-La API estará disponible en la URL especificada en la configuración.
+La API estará disponible en la URL especificada en la configuración del proyecto
+(usualmente https://localhost:5001 o http://localhost:5000).
 
 🔗 Proyecto Relacionado
 
-Frontend (React): (agrega aquí el enlace cuando lo subas)
+Frontend (React): https://github.com/RigoMarquez/ProyectoWebPresTech-Fronted.git
 
 🤝 Trabajo en Equipo
 
