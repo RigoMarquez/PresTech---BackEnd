@@ -1,66 +1,77 @@
 # PresTech - BackEnd
-
 ## 🚀 Descripción del Proyecto
+Este repositorio contiene el código fuente del BackEnd para el sitio web de PresTech. Es la capa de servicios y lógica de negocio responsable de gestionar la información, la autenticación de usuarios y la comunicación con la base de datos para la aplicación web.
 
-Este repositorio contiene el código fuente del **BackEnd** para el proyecto **PresTech**, una aplicación web desarrollada bajo una arquitectura cliente-servidor.
-
-El backend es responsable de la **lógica de negocio**, la **gestión de datos**, la **autenticación de usuarios** y la **exposición de una API REST**, permitiendo la correcta comunicación con el FrontEnd del sistema.
-
-El objetivo principal del proyecto es proporcionar una API **robusta, escalable y mantenible**, siguiendo buenas prácticas de desarrollo backend.
-
----
+El objetivo principal es proporcionar una API robusta y escalable para que el FrontEnd (sitio web de PresTech) pueda interactuar de manera eficiente.
 
 ## 💻 Tecnologías Utilizadas
+El proyecto fue desarrollado utilizando el ecosistema de Microsoft .NET, lo que garantiza un rendimiento óptimo y un desarrollo estructurado.
 
-El proyecto fue desarrollado utilizando el ecosistema de **Microsoft .NET**, garantizando un desarrollo estructurado y un rendimiento óptimo.
+Lenguaje: C#
 
-- **Lenguaje:** C#
-- **Framework:** ASP.NET Core (.NET)
-- **Gestión de dependencias:** NuGet
-- **Base de datos:** MySQL
-- **ORM:** Entity Framework Core
+Framework: .NET / ASP.NET Core (Asumido por el uso de C# y ser un Backend web moderno)
 
----
+Gestión de Dependencias: NuGet
+
+Base de Datos: MySQL
+
+ORM (Mapeo Objeto-Relacional): Entity Framework Core
 
 ## ⚙️ Configuración e Instalación
+Sigue estos pasos para obtener una copia operativa del proyecto en tu máquina local con fines de desarrollo y pruebas.
 
-Sigue estos pasos para obtener una copia funcional del proyecto en tu entorno local.
+Requisitos Previos
+Asegúrate de tener instalado lo siguiente:
 
-### 🔧 Requisitos Previos
+.NET SDK: Versión 9.0 o superior.
 
-Asegúrate de tener instalado:
+IDE: Visual Studio
 
-- **.NET SDK:** versión 9.0 o superior
-- **IDE:** Visual Studio 2022 o superior
-- **Base de datos:** MySQL
+Base de Datos: MySQL descargado
 
----
-
-## 📥 Instalación
-
-### 1️⃣ Clonar el repositorio
+## Pasos de Instalación
+Clonar el Repositorio:
 
 ```bash
-git clone https://github.com/RigoMarquez/PresTech---BackEnd.git
-cd PresTech-BackEnd/PresTechBackEnd
-2️⃣ Restaurar dependencias
-bash
-Copiar código
-dotnet restore
-3️⃣ Aplicar migraciones
-bash
-Copiar código
-dotnet ef database update
-▶️ Ejecución del Proyecto
-bash
-Copiar código
-dotnet run
-La API estará disponible en la URL especificada en la configuración del proyecto.
+   git clone https://github.com/JorgeIRamos/PresTech-BackEnd.git
+   cd PresTech-BackEnd/PresTechBackEnd
+   ```
+
+Restaurar Dependencias: Ejecuta el siguiente comando para descargar todos los paquetes NuGet necesarios:
+
+```bash
+    dotnet restore
+   ```
+
+Aplicar Migraciones para crear la estructura de la base de datos:
+
+```bash
+    dotnet ef database update
+   ```
+
+## ▶️ Ejecución del Proyecto
+Una vez configurado, puedes ejecutar el backend desde tu terminal:
+
+Navega a la carpeta principal del proyecto:
+
+```bash
+    cd PresTech-BackEnd/PresTechBackEnd
+   ```
+
+
+Ejecutar la Aplicación:
+
+```bash
+    dotnet run
+   ```
+La API estará disponible en la URL especificada en la configuración.
 
 🔗 Proyecto Relacionado
+
 Frontend (React): (agrega aquí el enlace cuando lo subas)
 
 🤝 Trabajo en Equipo
+
 Este proyecto fue desarrollado como proyecto académico en equipo.
 
 Mi participación incluyó:
@@ -74,9 +85,11 @@ Integración con la base de datos mediante Entity Framework Core
 Apoyo en la integración con el frontend y pruebas del sistema
 
 👨‍💻 Autores
+
 Rigoberto Márquez Fernández
 
 Jorge Iván Ramos Murgas
 
 📌 Nota
+
 Este repositorio se conserva con fines educativos y de portafolio, y representa un proyecto desarrollado durante el proceso de formación académica en tecnologías backend con .NET.
