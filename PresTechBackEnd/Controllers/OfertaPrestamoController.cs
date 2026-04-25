@@ -86,11 +86,43 @@ namespace PresTechBackEnd.Controllers
                 return BadRequest(ModelState);
             }
 
+            // VALIDACIONES DE NEGOCIO
+
+            if (ofertaPrestamo.MontoMin > ofertaPrestamo.MontoMax)
+            {
+                return BadRequest(new { message = "El monto mínimo no puede ser mayor al monto máximo" });
+            }
+
+            if (ofertaPrestamo.Cuotas <= 0)
+            {
+                return BadRequest(new { message = "El número de cuotas debe ser mayor a cero" });
+            }
+
+            if (string.IsNullOrWhiteSpace(ofertaPrestamo.Frecuencia))
+            {
+                return BadRequest(new { message = "La frecuencia es obligatoria" });
+            }
+
+            // NUEVA VALIDACIÓN (AQUÍ VA)
+            var frecuenciasValidas = new[] { "semanal", "quincenal", "mensual", "anual" };
+
+            if (!frecuenciasValidas.Contains(ofertaPrestamo.Frecuencia.ToLower()))
+            {
+                return BadRequest(new { message = "Frecuencia no válida" });
+            }
+
+            if (ofertaPrestamo.Interes <= 0)
+            {
+                return BadRequest(new { message = "El interés debe ser mayor a cero" });
+            }
+
             _context.OfertasPrestamo.Add(ofertaPrestamo);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOfertaPrestamo", new { id = ofertaPrestamo.OfertaPrestamoId }, ofertaPrestamo);
         }
+
+
         // DELETE: api/OfertaPrestamo/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOfertaPrestamo(int id)

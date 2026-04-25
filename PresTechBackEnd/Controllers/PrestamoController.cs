@@ -205,6 +205,10 @@ namespace PresTechBackEnd.Controllers
         [HttpPost]
         public async Task<ActionResult<SolicitarPrestamoDTO>> CrearPrestamo(Prestamo prestamo)
         {
+
+            if (prestamo.SaldoPrestamo <= 0)
+                return BadRequest("El monto del préstamo debe ser mayor a cero.");
+
             var prestatario = await _context.Prestatarios.FindAsync(prestamo.PrestatarioId);
             if (prestatario == null)
                 return BadRequest("Prestatario no existe.");
@@ -215,6 +219,8 @@ namespace PresTechBackEnd.Controllers
 
             if (!oferta.Disponible)
                 return BadRequest("La oferta ya fue utilizada.");
+
+            
 
             DateTime fechaProximoPago = DateTime.Now;
 

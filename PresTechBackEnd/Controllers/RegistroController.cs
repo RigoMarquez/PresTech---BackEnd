@@ -34,6 +34,21 @@ namespace PresTechBackEnd.Controllers
         [HttpPost]
         public async Task<ActionResult> RegistrarUsuario([FromBody] RegistroRequest req)
         {
+            // VALIDACIONES NUEVAS
+
+            // CP-02: Email vacío
+            if (string.IsNullOrEmpty(req.Email))
+                return BadRequest(new { mensaje = "El email es obligatorio." });
+
+            // (Opcional pero recomendado)
+            if (!req.Email.Contains("@"))
+                return BadRequest(new { mensaje = "El email no es válido." });
+
+            // CP-03: Contraseña corta
+            if (string.IsNullOrEmpty(req.Contraseña) || req.Contraseña.Length < 8)
+                return BadRequest(new { mensaje = "La contraseña debe tener al menos 8 caracteres." });
+
+
             var emailExiste = await _context.Personas
                 .AnyAsync(p => p.Email.ToLower() == req.Email.ToLower());
 
@@ -65,7 +80,6 @@ namespace PresTechBackEnd.Controllers
             _context.Personas.Add(persona);
             await _context.SaveChangesAsync();
 
-            // Crear rol
             if (req.Rol.ToLower() == "prestamista")
             {
                 var prestamista = new Prestamista { PersonaId = persona.PersonaId };

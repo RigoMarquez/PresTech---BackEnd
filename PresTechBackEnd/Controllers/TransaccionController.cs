@@ -141,6 +141,12 @@ namespace PresTechBackEnd.Controllers
             if (prestamo == null)
                 return NotFound(new { mensaje = "Préstamo no encontrado" });
 
+            if (prestamo.Estado == "Pagado")
+                return Conflict(new { mensaje = "El préstamo ya está pagado" });
+
+            if (string.IsNullOrWhiteSpace(dto.TipoPago))
+                return BadRequest("El tipo de pago es obligatorio.");
+
             if (prestamo.OfertaPrestamo == null || string.IsNullOrWhiteSpace(prestamo.OfertaPrestamo.Frecuencia))
                 return BadRequest(new { mensaje = "No se encontró la frecuencia del préstamo (OfertaPrestamo)." });
 
@@ -155,19 +161,29 @@ namespace PresTechBackEnd.Controllers
 
             _context.Transacciones.Add(transaccion);
 
+            // Actualizar saldo
             prestamo.SaldoRestante -= dto.MontoPagado;
-            if (prestamo.SaldoRestante < 0) prestamo.SaldoRestante = 0;
+            if (prestamo.SaldoRestante < 0)
+                prestamo.SaldoRestante = 0;
 
+            // Reducir cuotas
             if (prestamo.CuotasRestantes > 0)
                 prestamo.CuotasRestantes--;
 
-            prestamo.FechaProxPago = CalcularProximaFechaPago(prestamo.FechaProxPago, prestamo.OfertaPrestamo.Frecuencia);
-
+            // LÓGICA CORREGIDA
             if (prestamo.SaldoRestante <= 0 || prestamo.CuotasRestantes <= 0)
             {
                 prestamo.SaldoRestante = 0;
                 prestamo.CuotasRestantes = 0;
                 prestamo.Estado = "Pagado";
+            }
+            else
+            {
+                // Solo si sigue activo
+                prestamo.FechaProxPago = CalcularProximaFechaPago(
+                    prestamo.FechaProxPago,
+                    prestamo.OfertaPrestamo.Frecuencia
+                );
             }
 
             await _context.SaveChangesAsync();
